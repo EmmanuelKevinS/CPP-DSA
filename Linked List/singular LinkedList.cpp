@@ -23,22 +23,50 @@ class LinkedList{
             tail = newNode;
             length = 1;
         }
+
+        //Inserting a new Node to the end of the Linked List
+        void append(int value){
+            Node* newNode =  new Node(value);
+            
+            if(head == nullptr){
+                head = newNode;
+                tail = newNode;
+            }else{
+                tail->next = newNode;
+                tail = newNode;
+            }
+            length++;
+        }
+
+        //Deleting the last Node from the Linked List
+        void deleteLast() {
+            if (length == 0) return;
+            Node* temp = head;
+            if (length == 1) {
+                head = nullptr;
+                tail = nullptr;
+            } else {
+                Node* pre = head;
+                while(temp->next) {
+                    pre = temp;
+                    temp = temp->next;
+                }
+                tail = pre;
+                tail->next = nullptr;
+            }
+            delete temp;
+            length--;            
+        }
+
         void printList(){
             Node* temp = head;
             while(temp != NULL){
-                cout << temp->value << endl;
+                cout << temp->value << " ->" << " ";
                 temp = temp->next;
             }
+            cout << "NULL" << endl;
         }
-        void getHead(){
-            cout << "Head:" << head->value << endl;
-        }
-        void getTail(){
-            cout << "Tail:" << tail->value << endl;
-        }
-        void getLength(){
-            cout << "Length:" << length << endl;
-        }
+    
         ~LinkedList(){
             Node* temp = head;
             while(head != NULL){
@@ -50,10 +78,14 @@ class LinkedList{
 };
 int main(){
     LinkedList* myLinkedList = new LinkedList(4);
-    myLinkedList->getHead();
-    myLinkedList->getTail();
-    myLinkedList->getLength();
+    myLinkedList->append(2);
+    myLinkedList->append(3);
+    myLinkedList->append(9);
     myLinkedList->printList();
+
+    myLinkedList->deleteLast();
+    myLinkedList->printList();
+
     delete myLinkedList;
     return 0;
 }
