@@ -58,6 +58,56 @@ class LinkedList{
             length--;            
         }
 
+        //Inserting a node at the beginning of the Linked List
+        void prepend(int value){
+            Node* newNode = new Node(value);
+            if(head == NULL){
+                head = newNode;
+                tail = newNode;
+            }else{
+                newNode->next = head;
+                head = newNode;
+            }
+            length++;
+        }
+
+        //Deleting the First Node of the Linked List
+        void deleteFirst(){
+            Node* temp = head;
+            if (length == 0){
+                return;
+            }else if(length == 1){
+                head = NULL;
+                tail = NULL;
+            }else{
+                head = head->next;
+            }
+            delete temp;
+            length--;
+        }
+
+        //Getting the value of the Node at index of choice
+        Node* get(int index){
+            if(index < 0 || index >= length){
+                return nullptr;
+            }
+            Node* temp = head;
+            for(int i = 0; i < index; i++){
+                temp = temp->next;
+            }
+            return temp;
+        }
+
+        //Setting a value to an already existing node
+        bool set(int index, int value){
+            Node* temp = get(index);
+            if(temp != nullptr){
+                temp->value = value;
+                return true;
+            }
+            return false;
+        }
+
         void printList(){
             Node* temp = head;
             while(temp != NULL){
@@ -85,6 +135,19 @@ int main(){
 
     myLinkedList->deleteLast();
     myLinkedList->printList();
+
+    myLinkedList->prepend(2);
+    myLinkedList->prepend(5);
+    myLinkedList->printList();
+
+    myLinkedList->deleteFirst();
+    myLinkedList->printList();
+
+    cout << myLinkedList->get(2)->value << endl;
+
+    myLinkedList->set(1,10);
+    myLinkedList->printList();
+
 
     delete myLinkedList;
     return 0;
