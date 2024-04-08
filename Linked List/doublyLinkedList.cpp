@@ -84,7 +84,9 @@ int main(){
     myDLL->append(2);
     myDLL->append(56);
     myDLL->append(78);
+    cout << "Full DLL: ";
     myDLL->printList();
+    cout << "After Delete Last: ";
     myDLL->deleteLast();
     myDLL->printList();
 
