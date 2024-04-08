@@ -108,6 +108,64 @@ class LinkedList{
             return false;
         }
 
+        //Inserting a node into a particular index
+        bool insertNode(int index, int value){
+            Node* newNode = new Node(value);
+            if(index < 0 || index > length){
+                return false;
+            }
+            if(index == 0){
+              prepend(value);
+              return true;
+            }
+            if(index == length){
+                append(value);
+                return true;
+            }
+            Node* temp = get(index - 1);
+            newNode->next = temp->next;
+            temp->next = newNode;
+            length++;
+            return true;
+        }
+
+        //Deleting a Node at a particular index
+        void deleteNode(int index) {
+        if (index < 0 || index >= length) return;
+
+        if (index == 0) {
+            return deleteFirst();
+        }
+
+        if (index == length - 1) {
+            return deleteLast();
+        }
+
+        Node* prev = get(index - 1);
+        Node* temp = prev->next;
+        prev->next = temp->next;
+        delete temp;
+        length--;
+        }   
+
+        //Reversing the Linked List
+        void reverse(){
+            if(head == nullptr) return;
+            Node* temp = head;
+            head = tail;
+            tail = temp;
+            Node* before = nullptr;
+            Node* after = temp->next;
+            for(int i = 0; i < length; i++){
+                after = temp->next;
+                temp->next = before; //breaking the LL at this step
+                before = temp;
+                temp = after;
+            };
+            
+            
+        }
+
         void printList(){
             Node* temp = head;
             while(temp != NULL){
@@ -148,6 +206,20 @@ int main(){
     myLinkedList->set(1,10);
     myLinkedList->printList();
 
+    myLinkedList->insertNode(2,25);
+    cout << "After inserting new Node: ";
+    myLinkedList->printList();
+
+    cout << "After deleting Node once: ";
+    myLinkedList->deleteNode(3);
+    myLinkedList->printList();
+    cout << "After deleting Node twice: ";
+    myLinkedList->deleteNode(1);
+    myLinkedList->printList();
+
+    cout << "Reverse Linked List: ";
+    myLinkedList->reverse();
+    myLinkedList->printList();
 
     delete myLinkedList;
     return 0;
