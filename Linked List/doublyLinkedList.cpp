@@ -57,6 +57,54 @@ class DoublyLinkedList{
             length--;
         }
 
+        //Inserting a node at the start of the DLL
+        void prepend(int value){
+            Node* newNode = new Node(value);
+            if(head == nullptr){
+                head = newNode;
+                tail = newNode;
+            }else{
+                newNode->next = head;
+                head->prev = newNode;
+                head = newNode;
+            }
+            length++;
+        }
+
+        //Deleting the first node in the DLL
+        void deleteFirst() {
+            if (head == nullptr) return;
+            Node* temp = head;
+            if (head->next == nullptr) {
+                head = nullptr;
+                tail = nullptr;
+            } else {
+                head = head->next;
+                head->prev = nullptr;
+            }
+            delete temp;
+            length--;
+        }
+
+        //Get index of node in LL
+        Node* get(int index){
+            if(index < 0 || index >= length){
+                return nullptr;
+            }
+            Node* temp = head;
+            if (index < length/2){          //In the first half we use temp->next
+                for(int i = 0; i < index; i++){
+                temp = temp->next;
+                }
+            }else{                          //In the second half we use temp->prev
+                temp = tail;
+                for(int i = length - 1; i > index; i--){
+                    temp = temp->prev;
+                }
+            }
+            return temp;
+        }
+
         //Output
         void printList(){
             Node* temp = head;
@@ -84,11 +132,25 @@ int main(){
     myDLL->append(2);
     myDLL->append(56);
     myDLL->append(78);
+
     cout << "Full DLL: ";
     myDLL->printList();
     cout << "After Delete Last: ";
     myDLL->deleteLast();
     myDLL->printList();
+
+    cout << "After Prepend: ";
+    myDLL->prepend(21);
+    myDLL->prepend(78);
+    myDLL->printList();
+
+    cout << "After Delete First: ";
+    myDLL->deleteFirst();
+    myDLL->printList();
+
+    cout << "Get(first half of DLL): " << myDLL->get(1)->value << endl;
+    cout << "Get(second half of DLL): " << myDLL->get(3)->value << endl;
+
 
     return 0;
 }
