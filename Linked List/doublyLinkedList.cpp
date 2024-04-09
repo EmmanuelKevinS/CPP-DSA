@@ -105,6 +105,53 @@ class DoublyLinkedList{
             return temp;
         }
 
+        //Setting a value to an already existing node
+        bool set(int index, int value){
+            Node* temp = get(index);
+            if(temp != nullptr){
+                temp-> value = value;
+                return true;
+            }
+            return false;
+        }
+
+        //Inserting a node at an index of my choice in the DLL
+        bool insertNode(int index, int value){
+            Node* newNode = new Node(value);
+            if(index < 0 || index > length) return false;
+            if(index == 0){
+                prepend(value);
+                return true;
+            }
+            if(index == length){
+                append(value);
+                return true;
+            }
+            Node* temp = get(index - 1);
+            newNode->next = temp->next;
+            temp->next->prev = newNode;
+            newNode->prev = temp;
+            temp->next = newNode;
+            length++;
+            return true;
+        }
+
+        //Deleting a node from the DLL
+        void deleteNode(int index){
+            if(index < 0 || index >= length) return;
+            if(index == 0){
+                return deleteFirst();
+            }
+            if(index == length-1){
+                return deleteLast();
+            }
+            Node* temp = get(index);
+            temp->prev->next = temp->next;
+            temp->next->prev = temp->prev;
+            delete temp;
+            length--;
+        }
+
         //Output
         void printList(){
             Node* temp = head;
@@ -150,6 +197,21 @@ int main(){
 
     cout << "Get(first half of DLL): " << myDLL->get(1)->value << endl;
     cout << "Get(second half of DLL): " << myDLL->get(3)->value << endl;
+
+    cout << "Set: ";
+    myDLL->set(1, 200);
+    myDLL->printList();
+
+    cout << "Inserting Node: ";
+    myDLL->insertNode(4,780);
+    myDLL->insertNode(2,1000);
+    myDLL->printList();
+
+    cout << "After deleting Node: ";
+    myDLL->deleteNode(3);
+    myDLL->deleteNode(0);
+    myDLL->deleteNode(4);
+    myDLL->printList();
 
 
     return 0;
